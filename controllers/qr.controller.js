@@ -1,5 +1,6 @@
 const QRCode = require('qrcode')
 const { Person } = require('../models')
+const { where } = require('sequelize')
 
 exports.generateQR = async (req, res) => {
     try {
@@ -7,6 +8,21 @@ exports.generateQR = async (req, res) => {
 
         if (!full_name) {
             return res.status(400).json({ message: 'Full name is required' })
+        }
+        if (!email) {
+            return res.status(400).json({ message: 'Email required' })
+        }
+        if (!phone) {
+            return res.status(400).json({ message: 'Phone required' })
+        }
+
+        const dataEmail = await Person.findAll({ where: { email } })
+        if (dataEmail.length) {
+            return res.status(400).json({ message: 'Email already registered' })
+        }
+        const dataPhone = await Person.findAll({ where: { phone } })
+        if (dataPhone.length) {
+            return res.status(400).json({ message: 'Phone number already registered' })
         }
 
         const payload = JSON.stringify({

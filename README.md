@@ -18,3 +18,5 @@ body :
 "email": "example@example.com",
 "phone": "9500392"
 }
+
+postman documentation link : https://documenter.getpostman.com/view/11119755/2sBXVfiWnf
